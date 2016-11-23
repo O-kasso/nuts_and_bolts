@@ -1,32 +1,30 @@
 ####################
-#       PATH       #
+#      SETUP       #
 ####################
 
-# make rbenv actually work
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-# make golang work
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-
-
-####################
-#       MISC       #
-####################
+# iterm2 shell integration
+# shellcheck source=/dev/null
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 # default editor
 export EDITOR=vim
 
-
 # FZF keybindings
+# shellcheck source=/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# setup ruby
+eval "$(rbenv init -)"
+
+# setup python
+eval "$(pyenv init -)"
+
+# setup golang
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 
 # don't send analytics to homebrew
 export HOMEBREW_NO_ANALYTICS=1
-
-# make Shopify devtools work
-if [[ -f /opt/dev/dev.sh ]]; then source /opt/dev/dev.sh; fi
 
 ####################
 #    APPEARANCE    #
@@ -38,16 +36,10 @@ VIOLET=$(tput setaf 13)
 CYAN=$(tput setaf 6)
 RESET=$(tput sgr0)
 export PS1='\[$VIOLET\]{\@}\[$CYAN\]{\w\[$ORANGE\]$(__git_ps1)\[$CYAN\]} $ \[$RESET\]'
-export PS2="${COLOR}\[\@\] > ${RESET}"
+export PS2="${VIOLET}\[\@\]${CYAN} > ${RESET}"
 
-# cool prompt currently not working correctly
-# export PS1='\[$VIOLET\]{💻  \h} \[$CYAN\]{🕒  \@} {📂  \w\[$ORANGE\]$(__git_ps1)\[$CYAN\]} $ \[$RESET\]'
-
-# export GIT_PS1_SHOWDIRTYSTATE=1
 source ~/git-completion.bash # completion
 source ~/git-prompt.sh # prompt
-
-# tab completion
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on"
 
@@ -86,18 +78,13 @@ alias gdamn='git commit --amend --no-edit'
 alias gshit='git_interactive_rebase_x_commits_ago $1'
 alias gfuck='git_commit_amend_all_and_force_push'
 
-## shopify
-#alias oo='dev cd shopify'
-#alias ii='dev cd shipify'
-#alias ddu='dev down && dev up'
-#alias ddd='dev down && dev up && dev server'
-#alias killpuma='pgrep -f puma | xargs kill -9'
+alias killpuma='pgrep -f puma | xargs kill -9'
 
 ###################
 #    FUNCTIONS    #
 ###################
 
-# rename current terminal tab
+# rename current iterm2 tab
 function title { echo -ne "\033]0;"$*"\007"; }
 
 # display a tree of all dangling commits
@@ -107,7 +94,9 @@ function git_dangling_commits_tree {
 
 # force push all changes on top of previous commit
 function git_commit_amend_all_and_force_push {
-  if [ "$(git symbolic-ref --short HEAD)" != "master" ] ; then git commit -a --amend --no-edit && git push -f; fi;
+  read -p "Are you sure you want to force-push everything to $(git symbolic-ref --short HEAD)? [y/n] " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then git commit -a --amend --no-edit && git push -f; fi;
 }
 
 # update to latest master and rebase current branch on top of it
@@ -121,18 +110,18 @@ function git_rebase_latest_master {
 
 # push to new upstream branch with same name as local branch, then open default browser to Github page for new branch
 function git_upstream_push_and_launch_pr_in_browser {
-  cd $(git rev-parse --show-toplevel) && \
-  git push --set-upstream origin $(git symbolic-ref --short HEAD) && \
+  cd "$(git rev-parse --show-toplevel)" && \
+  git push --set-upstream origin "$(git symbolic-ref --short HEAD)" && \
   open "https://github.com/Shopify/$(basename "$PWD")";
 }
 
 function git_interactive_rebase_x_commits_ago {
-  if [[ $1 =~ ^[0-9]+$ ]] ; then git rebase -i HEAD~$1 ; fi;
+  if [[ $1 =~ ^[0-9]+$ ]] ; then git rebase -i "HEAD~$1" ; fi;
 }
 
 function git_pretty_log {
   if [[ $1 =~ ^[0-9]+$ ]] ; then
-    git log -$1 --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
+    git log "-$1" --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
   else
     git log -20 --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
   fi
@@ -140,8 +129,9 @@ function git_pretty_log {
 
 function git_diff_since {
   if [[ $1 =~ ^[0-9]+$ ]] ; then
-    git diff -w HEAD~$1
+    git diff -w "HEAD~$1"
   else
     git diff -w
   fi
 }
+

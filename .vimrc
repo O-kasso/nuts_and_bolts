@@ -5,7 +5,7 @@ set runtimepath^=~/.vim/fzf.vim
 " plugin manager
 execute pathogen#infect()
 
-" make shit look pretty
+" make things pretty
 syntax enable
 syntax on
 set number
@@ -25,13 +25,7 @@ set splitright
 set textwidth=180
 filetype indent on
 filetype plugin indent on
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
-set guicursor+=n:hor20-Cursor/lCursor "underscore cursor in normal mode
 set guifont=Roboto_Mono_for_Powerline:h12
-" IF NOT USING Powerline fonts, good default font:
-"set guifont=Menlo:h12
-
 
 " vim-airline statusbar
 let g:airline_powerline_fonts = 1
@@ -39,11 +33,14 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='solarized'
 set t_Co=256
 set laststatus=2
-"   Use if shit looks weird
-"let g:bufferline_echo = 0
 
-" make indent guides visible
-" autocmd VimEnter * :IndentGuidesEnable
+" Asynchronous Linting Engine
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
+let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✓ ok']
+hi ALEErrorSign ctermfg=darkred
+hi ALEWarningSign ctermfg=darkyellow
 
 colorscheme solarized
 let g:solarized_termcolors=16
@@ -51,7 +48,7 @@ let g:solarized_visibility ="high"
 
 "highlight current cursorline number
 set cursorline
-hi CursorLineNr term=bold ctermfg=6 gui=bold guifg=Green
+hi CursorLineNr term=bold ctermfg=darkcyan gui=bold guifg=Green
 
 " make sure indenting works properly with keywords like elsif/end
 set runtimepath^=~/.vim/bundle/vim-endwise/plugin/endwise.vim
