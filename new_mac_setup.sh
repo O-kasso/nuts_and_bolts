@@ -9,9 +9,11 @@ fi
 # exit if any simple command fails
 set -e
 
-##### XCODE COMMAND LINE TOOLS #####
-xcode-select --install
-xcodebuild -license accept
+# trick macOS updater into thinking XCODE COMMAND LINE TOOLS are available
+touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+
+# install all pending updates
+sudo softwareupdate -i -a
 
 ##### HOMEBREW #####
 chown -R "$(whoami)" /usr/local
