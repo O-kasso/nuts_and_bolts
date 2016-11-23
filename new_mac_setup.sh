@@ -106,12 +106,9 @@ npm install -g htmlhint csslint jshint coffeelint jsonlint
 
 ##### CONFIGS #####
 cp "$(brew --prefix git)/etc/bash_completion.d/*" "$HOME"
-cp ./{.bash_profile,.vimrc,.jshintrc} "$HOME"
-cp ./Solarized\ Dark.itermcolors "$HOME"
-cp ./com.googlecode.iterm2.plist "$HOME"
-cp ./.gitignore "$HOME"
-cp ./.gitconfig "$HOME"
-cp ./karabiner.json ~/.karabiner.d/configuration/
+cp ./iterm2/{Solarized\ Dark.itermcolors,com.googlecode.iterm2.plist} "$HOME"
+cp ./dotfiles/{.bash_profile,.vimrc,.gitconfig,.gitignore,.rubocop.yml,.jshintrc} "$HOME"
+cp ./dotfiles/karabiner.json ~/.karabiner.d/configuration/
 
 ##### VIM #####
 mkdir -p ~/.vim/autoload ~/.vim/bundle
