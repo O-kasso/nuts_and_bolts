@@ -12,11 +12,11 @@ set -e
 # trick macOS updater into thinking XCODE COMMAND LINE TOOLS are available
 touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 
-# install all pending updates
+# install XCODE COMMAND LINE TOOLS and other pending updates
 sudo softwareupdate -i -a
 
 ##### HOMEBREW #####
-chown -R "$(whoami)" /usr/local
+chown -R "$(whoami)" /usr/local # fixes some brew permission issues
 yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 export HOMEBREW_NO_ANALYTICS=1
 brew doctor
@@ -25,12 +25,13 @@ brew tap caskroom/cask
 brew cask doctor
 
 brew bundle --file=- <<EOF
-brew 'openssl'
+brew 'openssl' # needs to be installed first
 brew 'autoconf'
 brew 'ctags'
 brew 'fzf'
 brew 'gdbm'
 brew 'git'
+brew 'go', args: ['cross-compile-common']
 brew 'heroku-toolbelt'
 brew 'httpie'
 brew 'jpeg'
@@ -42,10 +43,10 @@ brew 'node'
 brew 'pcre'
 brew 'perl'
 brew 'pkg-config'
-brew 'python3'
+brew 'pyenv'
 brew 'rbenv'
 brew 'readline'
-brew 'reattach-to-user-namespace'
+brew 'reattach-to-user-namespace' # fixes tmux on mac
 brew 'ruby-build'
 brew 'shellcheck'
 brew 'sqlite'
@@ -55,14 +56,16 @@ brew 'tree'
 brew 'vim'
 brew 'webp'
 brew 'xz'
-cask 'google-chrome'
 cask 'alfred'
 cask 'atom'
-cask 'dashlane'
+cask 'dashlane' # password manager
 cask 'dropbox'
+cask 'google-chrome'
 cask 'iterm2'
 cask 'near-lock'
+cask 'postman'
 cask 'typora'
+cask 'virtualbox'
 cask 'vlc'
 cask 'webtorrent'
 EOF
@@ -74,7 +77,7 @@ yes | /usr/local/opt/fzf/install
 brew cleanup -s
 brew cask cleanup
 
-##### RB ENV #####
+##### RUBY #####
 find_latest_ruby() {
   rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
 }
@@ -87,20 +90,28 @@ rbenv global "$RUBY_VERSION"
 ##### GEMS #####
 gem update --system
 gem install bropages bundler pry rails rubocop
+bundle config --global jobs $(($(sysctl -n hw.ncpu) - 1)) # parallelize bundler
+
+##### PYTHON #####
+find_latest_python() {
+  pyenv install -l | grep -v "[-a-z]" | tail -1 | sed -e 's/^ *//'
+}
+eval "$(pyenv init -)"
+PYTHON_VERSION="$(find_latest_python)"
+pyenv install "$PYTHON_VERSION"
+pyenv global "$PYTHON_VERSION"
 
 ##### NODE #####
 npm install -g htmlhint csslint jshint coffeelint jsonlint
 
 ##### CONFIGS #####
-cp ./{.bash_profile,.vimrc,.jshintrc} $HOME
-cp ./Solarized\ Dark.itermcolors $HOME
-cp ./com.googlecode.iterm2.plist $HOME
-cp $(brew --prefix git)/etc/bash_completion.d/* $HOME
+cp "$(brew --prefix git)/etc/bash_completion.d/*" "$HOME"
+cp ./{.bash_profile,.vimrc,.jshintrc} "$HOME"
+cp ./Solarized\ Dark.itermcolors "$HOME"
+cp ./com.googlecode.iterm2.plist "$HOME"
+cp ./.gitignore "$HOME"
 cp ./karabiner.json ~/.karabiner.d/configuration/
-cp ./.gitignore $HOME
-bundle config --global jobs $(($(sysctl -n hw.ncpu) - 1))
-git config --global user.name "Omar Kassouar"
-git config --global user.email "omar@kassouar.com"
+cp ./gitignore "$HOME"
 
 ##### VIM #####
 mkdir -p ~/.vim/autoload ~/.vim/bundle && \
