@@ -17,7 +17,7 @@ sudo softwareupdate -i -a
 
 ##### HOMEBREW #####
 chown -R "$(whoami)" /usr/local
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 export HOMEBREW_NO_ANALYTICS=1
 brew doctor
 brew update
@@ -68,7 +68,7 @@ cask 'webtorrent'
 EOF
 
 ##### FZF EXTENSIONS #####
-/usr/local/opt/fzf/install
+yes | /usr/local/opt/fzf/install
 
 ##### BREW CLEANUP #####
 brew cleanup -s
