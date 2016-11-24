@@ -62,8 +62,11 @@ cask 'dashlane' # password manager
 cask 'dropbox'
 cask 'google-chrome'
 cask 'iterm2'
+cask 'licecap'
 cask 'near-lock'
 cask 'postman'
+cask 'sequel-pro'
+cask 'slack'
 cask 'typora'
 cask 'virtualbox'
 cask 'vlc'
@@ -128,6 +131,7 @@ git clone https://github.com/tpope/vim-bundler.git
 git clone https://github.com/altercation/vim-colors-solarized.git
 git clone https://github.com/tpope/vim-endwise.git
 git clone https://github.com/tpope/vim-fugitive.git
+git clone https://github.com/airblade/vim-gitgutter.git
 git clone https://github.com/nathanaelkane/vim-indent-guides.git
 git clone https://github.com/jelera/vim-javascript-syntax.git
 git clone https://github.com/pangloss/vim-javascript.git
