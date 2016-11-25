@@ -13,72 +13,15 @@ set -e
 touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 
 # install XCODE COMMAND LINE TOOLS and other pending updates
-sudo softwareupdate -i -a
+softwareupdate -i -a
 
 ##### HOMEBREW #####
 chown -R "$(whoami)" /usr/local # fixes some brew permission issues
 yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-export HOMEBREW_NO_ANALYTICS=1
-brew doctor
-brew update
-brew tap caskroom/cask
-brew cask doctor
-
-brew bundle --file=- <<EOF
-brew 'openssl' # needs to be installed first
-brew 'autoconf'
-brew 'ctags'
-brew 'fzf'
-brew 'gdbm'
-brew 'git'
-brew 'go', args: ['cross-compile-common']
-brew 'heroku-toolbelt'
-brew 'httpie'
-brew 'jpeg'
-brew 'libpng'
-brew 'libtiff'
-brew 'libyaml'
-brew 'little-cms2'
-brew 'node'
-brew 'pcre'
-brew 'perl'
-brew 'pkg-config'
-brew 'pyenv'
-brew 'rbenv'
-brew 'readline'
-brew 'reattach-to-user-namespace' # fixes tmux on mac
-brew 'ruby-build'
-brew 'shellcheck'
-brew 'sqlite'
-brew 'the_silver_searcher'
-brew 'tmux'
-brew 'tree'
-brew 'vim'
-brew 'webp'
-brew 'xz'
-cask 'alfred'
-cask 'atom'
-cask 'dashlane' # password manager
-cask 'dropbox'
-cask 'google-chrome'
-cask 'iterm2'
-cask 'licecap'
-cask 'near-lock'
-cask 'postman'
-cask 'sequel-pro'
-cask 'slack'
-cask 'typora'
-cask 'virtualbox'
-cask 'vlc'
-cask 'webtorrent'
-EOF
+sudo -u "$(who -m | awk '{print $1}')" ./brew.sh # brew doesn't work with root privileges
 
 ##### FZF EXTENSIONS #####
 yes | /usr/local/opt/fzf/install
-
-##### BREW CLEANUP #####
-brew cleanup -s
-brew cask cleanup
 
 ##### RUBY #####
 find_latest_ruby() {
