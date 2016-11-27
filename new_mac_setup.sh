@@ -27,7 +27,7 @@ yes | /usr/local/opt/fzf/install
 find_latest_ruby() {
   rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
 }
-export PATH="$HOME/.rbenv/bin:$PATH"
+# export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 RUBY_VERSION="$(find_lastest_ruby)"
 rbenv install "$RUBY_VERSION"
@@ -35,8 +35,8 @@ rbenv global "$RUBY_VERSION"
 
 ##### GEMS #####
 gem update --system
-gem install bropages bundler pry rails rubocop
 bundle config --global jobs $(($(sysctl -n hw.ncpu) - 1)) # parallelize bundler
+bundle install --system
 
 ##### PYTHON #####
 find_latest_python() {
