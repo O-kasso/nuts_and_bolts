@@ -22,7 +22,7 @@ softwareupdate -i -a
 sudo -u "$(who -m | awk '{ print $1 }')" ./brew.sh # brew doesn't work with root privileges
 
 ##### FZF EXTENSIONS #####
-yes | /usr/local/opt/fzf/install
+yes | /usr/local/opt/fzf/install &
 
 ##### RUBY #####
 find_latest_ruby() {
