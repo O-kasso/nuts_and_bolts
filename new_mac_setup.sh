@@ -9,6 +9,9 @@ fi
 # exit if any simple command fails
 set -e
 
+# make sure scripts are being run in project directory
+cd "$(dirname "$0")"
+
 # trick macOS updater into thinking XCODE COMMAND LINE TOOLS are available
 touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 
@@ -16,9 +19,7 @@ touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
 softwareupdate -i -a
 
 ##### HOMEBREW #####
-chown -R "$(whoami)" /usr/local # fixes some brew permission issues
-yes '' | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-sudo -u "$(who -m | awk '{print $1}')" ./brew.sh # brew doesn't work with root privileges
+sudo -u "$(who -m | awk '{ print $1 }')" ./brew.sh # brew doesn't work with root privileges
 
 ##### FZF EXTENSIONS #####
 yes | /usr/local/opt/fzf/install
