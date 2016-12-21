@@ -32,6 +32,7 @@ brew 'webp'
 brew 'xz'
 cask 'alfred'
 cask 'atom'
+cask 'dash'
 cask 'dashlane' # password manager
 cask 'dropbox'
 cask 'google-chrome'
