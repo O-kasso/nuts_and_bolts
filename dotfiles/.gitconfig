@@ -4,7 +4,7 @@
 	required = true
 [user]
 	name = Omar Kassouar
-	email = spam@kassouar.com
+	email = omar@kassouar.com
 [push]
 	default = simple
 [filter "lfs"]
@@ -15,3 +15,5 @@
 	excludesfile = "$HOME"/.gitignore
 [credential]
 	helper = osxkeychain
+[pull]
+	rebase = true
