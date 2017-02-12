@@ -53,6 +53,7 @@ alias ll='ls -Glha'
 alias dropb='cd ~/Dropbox'
 alias tree='tree -C -L 3'
 alias bashp='vim ~/.bash_profile'
+alias desk='cd ~/Desktop'
 alias code='cd ~/Code'
 alias sob='source ~/.bash_profile'
 
@@ -112,7 +113,7 @@ function git_rebase_latest_master {
 function git_upstream_push_and_launch_pr_in_browser {
   cd "$(git rev-parse --show-toplevel)" && \
   git push --set-upstream origin "$(git symbolic-ref --short HEAD)" && \
-  open "https://github.com/Shopify/$(basename "$PWD")";
+  open "https://github.com/$(basename -- "$(dirname "$PWD")")/$(basename "$PWD")";
 }
 
 function git_interactive_rebase_x_commits_ago {
