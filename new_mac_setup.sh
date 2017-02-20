@@ -63,6 +63,7 @@ curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 cd ~/.vim/bundle
 git clone https://github.com/w0rp/ale.git
+git clone https://github.com/Raimondi/delimitMate.git
 git clone https://github.com/mattn/emmet-vim.git
 git clone https://github.com/powerline/fonts.git
 git clone https://github.com/junegunn/fzf.vim.git
@@ -70,9 +71,7 @@ git clone https://github.com/scrooloose/nerdtree.git
 git clone https://github.com/mbbill/undotree.git
 git clone https://github.com/vim-airline/vim-airline-themes
 git clone https://github.com/vim-airline/vim-airline
-git clone https://github.com/Townk/vim-autoclose.git
 git clone https://github.com/tpope/vim-bundler.git
-git clone https://github.com/altercation/vim-colors-solarized.git
 git clone https://github.com/tpope/vim-endwise.git
 git clone https://github.com/tpope/vim-fugitive.git
 git clone https://github.com/airblade/vim-gitgutter.git

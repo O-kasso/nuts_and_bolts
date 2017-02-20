@@ -1,7 +1,8 @@
 # Vim files #
 **/*~
 **/*.bak
-**/*.sw[abcdefghijklmnop]
+**/*.sw[a-p]
+.netrwhist
 
 # Invoker gem
 invoker.ini

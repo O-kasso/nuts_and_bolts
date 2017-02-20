@@ -27,6 +27,11 @@ filetype indent on
 filetype plugin indent on
 set guifont=Roboto_Mono_for_Powerline:h12
 
+" colors
+colorscheme solarized
+let g:solarized_termcolors=16
+let g:solarized_visibility ="high"
+
 " vim-airline statusbar
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -41,10 +46,6 @@ let g:ale_sign_warning = '⚠'
 let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✓ ok']
 hi ALEErrorSign ctermfg=darkred
 hi ALEWarningSign ctermfg=darkyellow
-
-colorscheme solarized
-let g:solarized_termcolors=16
-let g:solarized_visibility ="high"
 
 "highlight current cursorline number
 set cursorline
@@ -74,6 +75,10 @@ set updatetime=250
 " Run checktime in buffers, but avoiding the Command Line (q:) window
 au CursorHold * if getcmdwintype() == '' | checktime | endif
 
+" autoclosing
+let delimitMate_expand_cr = 2
+let delimitMate_expand_space = 1
+
 " navigate between splits more easily (ctrl+HJKL)
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -81,6 +86,16 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <silent> <Leader>= :exe "vertical resize +5"<CR>
 nnoremap <silent> <Leader>- :exe "vertical resize -5"<CR>
+
+" disable arrow navigation in insert mode
+inoremap <buffer> <up> <nop>
+inoremap <buffer> <down> <nop>
+inoremap <buffer> <left> <nop>
+inoremap <buffer> <right> <nop>
+nnoremap <buffer> <up> <nop>
+nnoremap <buffer> <down> <nop>
+nnoremap <buffer> <left> <nop>
+nnoremap <buffer> <right> <nop>
 
 " quit current split
 nnoremap <C-Q> <C-W><C-Q>
