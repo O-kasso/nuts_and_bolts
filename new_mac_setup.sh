@@ -30,7 +30,7 @@ find_latest_ruby() {
 }
 # export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-RUBY_VERSION="$(find_lastest_ruby)"
+RUBY_VERSION="$(find_latest_ruby)"
 rbenv install "$RUBY_VERSION"
 rbenv global "$RUBY_VERSION"
 
