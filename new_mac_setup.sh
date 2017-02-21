@@ -36,6 +36,7 @@ rbenv global "$RUBY_VERSION"
 
 ##### GEMS #####
 gem update --system
+gem install bundler
 bundle config --global jobs $(($(sysctl -n hw.ncpu) - 1)) # parallelize bundler
 bundle install --system
 
