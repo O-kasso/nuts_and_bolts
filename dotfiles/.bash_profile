@@ -68,7 +68,8 @@ alias gcm='git checkout master'
 alias gpull='git pull && ctags -R --languages=ruby,javascript --exclude=.git --exclude=log .'
 alias gcmp='gcm && gpull'
 alias grb='git_rebase_latest_master'
-alias gup='git_upstream_push_and_launch_pr_in_browser'
+alias gup='git_push_branch_up_to_remote_and_open_in_browser'
+alias gopen='git_open_project'
 alias gconf='git diff --name-only --diff-filter=U' # view all merge conflicts
 alias glog='git_pretty_log $1'
 alias gdiff='git_diff_since'
@@ -78,6 +79,8 @@ alias gdang='git_dangling_commits_tree' # view lost commits and stashes
 alias gdamn='git commit --amend --no-edit'
 alias gshit='git_interactive_rebase_x_commits_ago $1'
 alias gfuck='git_commit_amend_all_and_force_push'
+alias gresync='git_reset_origin_master_to_upstream_master'
+alias gnuke='git_nuke_repo'
 
 alias killpuma='pgrep -f puma | xargs kill -9'
 
@@ -110,10 +113,10 @@ function git_rebase_latest_master {
 }
 
 # push to new upstream branch with same name as local branch, then open default browser to Github page for new branch
-function git_upstream_push_and_launch_pr_in_browser {
+function git_push_branch_up_to_remote_and_open_in_browser {
   cd "$(git rev-parse --show-toplevel)" && \
   git push --set-upstream origin "$(git symbolic-ref --short HEAD)" && \
-  open "https://github.com/$(basename -- "$(dirname "$PWD")")/$(basename "$PWD")";
+  git_open_project
 }
 
 function git_interactive_rebase_x_commits_ago {
@@ -133,6 +136,44 @@ function git_diff_since {
     git diff -w "HEAD~$1"
   else
     git diff -w
+  fi
+}
+
+function git_open_project {
+  open "https://github.com/$(basename -- "$(dirname "$PWD")")/$(basename "$PWD")";
+}
+
+function git_reset_origin_master_to_upstream_master {
+  repo_name=$(basename "$(git rev-parse --show-toplevel)")
+  read -p "Are you sure you want to revert origin/master back to upstream/master? All work that hasn't been pushed upstream will be lost forever. [y/n]: " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    git remote update && \
+    git checkout -f master \
+    git reset --hard upstream/master -- \
+    git clean -fd \
+    git push origin +master
+  fi
+}
+
+function git_nuke_repo {
+  origin_url=$(git config --get remote.origin.url)
+  toplevel=$(git rev-parse --show-toplevel)
+
+  if git rev-parse --is-inside-work-tree > /dev/null 2>&1 ; then
+    read -p "Are you sure you want to delete the $(basename "$toplevel") repository and start fresh? All work that hasn't been pushed to a remote will be lost forever. [y/n]: " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      cd "$toplevel" && cd .. && rm -rf "$toplevel"
+
+      if [ "$1" = "recursive" ] ; then
+        git clone "$origin_url" --recursive
+      else
+        git clone "$origin_url"
+      fi
+
+      cd "$toplevel" || return
+    fi
   fi
 }
 
