@@ -1,5 +1,6 @@
 brew 'openssl' # needs to be installed first
 brew 'autoconf'
+brew 'bash'
 brew 'ctags'
 brew 'fzf'
 brew 'gdbm'
