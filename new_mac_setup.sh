@@ -110,7 +110,7 @@ fonts/install.sh
 
 # iTerm2 shell integration
 echo 'Configuring iTerm2 shell integration'
-cd && curl -L https://iterm2.com/misc/install_shell_integration_and_utilities.sh | bash
+cd && curl -L https://iterm2.com/shell_integration/install_shell_integration_and_utilities.sh | bash
 
 echo 'Restarting shell'
 # shellcheck source=/dev/null
