@@ -2,6 +2,10 @@
 set rtp+=/usr/local/opt/fzf
 set runtimepath^=~/.vim/fzf.vim
 
+" ctags
+set autochdir
+set tags=tags;/
+
 " plugin manager
 execute pathogen#infect()
 
@@ -87,7 +91,8 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <silent> <Leader>= :exe "vertical resize +5"<CR>
 nnoremap <silent> <Leader>- :exe "vertical resize -5"<CR>
 
-" disable arrow navigation in insert mode
+" disable arrow navigation
+set noesckeys
 inoremap <buffer> <up> <nop>
 inoremap <buffer> <down> <nop>
 inoremap <buffer> <left> <nop>
