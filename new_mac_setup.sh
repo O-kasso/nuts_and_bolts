@@ -103,6 +103,7 @@ git clone https://github.com/tpope/vim-rbenv.git
 git clone https://github.com/ngmy/vim-rubocop.git
 git clone https://github.com/vim-ruby/vim-ruby.git
 git clone https://github.com/tpope/vim-surround.git
+git clone https://github.com/airblade/vim-rooter.git
 
 # Powerline fonts
 echo 'Installing fonts'
