@@ -1,8 +1,10 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
+gem 'brakeman'
 gem 'bropages'
 gem 'bundler'
 gem 'lolcat'
 gem 'pry'
 gem 'rails'
+gem 'reek'
 gem 'rubocop'

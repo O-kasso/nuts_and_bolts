@@ -55,6 +55,7 @@ alias tree='tree -C -L 3'
 alias bashp='vim ~/.bash_profile'
 alias desk='cd ~/Desktop'
 alias code='cd ~/Code'
+alias ok='cd ~/Code/o-kasso'
 alias sob='source ~/.bash_profile'
 
 ## vim
