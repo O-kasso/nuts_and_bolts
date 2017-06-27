@@ -17,7 +17,8 @@ export EDITOR=vim
 eval "$(rbenv init -)"
 
 # setup python
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
+# ADDING PYTHON SHIMS TO PATH IS BREAKING HOMEBREW -- FIND OUT WHY???
 
 # setup golang
 export GOPATH=$HOME/go
@@ -84,6 +85,7 @@ alias gresync='git_reset_origin_master_to_upstream_master'
 alias gnuke='git_nuke_repo'
 
 alias killpuma='pgrep -f puma | xargs kill -9'
+alias serv='serve_static_site'
 
 ###################
 #    FUNCTIONS    #
@@ -178,3 +180,13 @@ function git_nuke_repo {
   fi
 }
 
+function serve_static_site {
+  port=$1
+
+  if [[ $port =~ ^[0-9]+$ ]]; then
+    open http://localhost:"$port" && \
+    ruby -run -ehttpd . -p"$port"
+  else
+    echo "Please provide a port number to serve from."
+  fi
+}
